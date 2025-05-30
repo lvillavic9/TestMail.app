@@ -11,17 +11,23 @@ const TESTMAIL_CONFIG = {
     BASE_URL: 'https://api.testmail.app/api/json'
 };
 
+// Configuración de filtros de streaming
+const STREAMING_FILTERS = {
+    netflix: ['netflix', 'nflx', 'netflix.com', 'nflix', 'netflixtv'],
+    disney: ['disney+', 'disney plus', 'disneyplus', 'disney', 'disney.com'],
+    amazon: ['prime video', 'primevideo', 'amazon prime', 'amazon', 'prime', 'amazon.com', 'amazonprime']
+};
+
 let currentService = null;
 let currentAlias = null;
 let currentPrincipalEmail = null;
 let refreshInterval = null;
 let currentMessages = [];
-let showToastMessages = true; // NUEVA VARIABLE: Controla cuándo mostrar mensajes
+let showToastMessages = true;
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
     showServiceSelection();
-    addDebugButton();
 });
 
 function initializeEventListeners() {
@@ -35,7 +41,10 @@ function initializeEventListeners() {
     document.getElementById('emailModal').addEventListener('click', function(e) {
         if (e.target === this) closeModal();
     });
-    document.getElementById('copyFullMessage').addEventListener('click', copyFullMessage);
+    const copyFullMessageBtn = document.getElementById('copyFullMessage');
+    if (copyFullMessageBtn) {
+        copyFullMessageBtn.addEventListener('click', copyFullMessage);
+    }
     document.getElementById('copyPrincipalEmailBtn').addEventListener('click', copyPrincipalEmail);
 }
 
@@ -125,7 +134,6 @@ async function handleConsultClick() {
         currentAlias = alias;
         document.getElementById('principalEmailDisplay').textContent = currentPrincipalEmail;
         
-        // CAMBIO: Activar mensajes toast solo para consulta inicial
         showToastMessages = true;
         await loadMessagesFromTestMail(aliasInfo.namespace, aliasInfo.tag, alias);
         showMessagesSection();
@@ -179,24 +187,37 @@ async function findAliasInSheets(email, service) {
     return null;
 }
 
-// CAMBIO: Función actualizada con parámetro para controlar mensajes toast
 async function loadMessagesFromTestMail(namespace, tag, fullAlias, showMessages = true) {
-    const messages = await fetchMessagesFromTestMailAPI(namespace, tag, fullAlias);
-    currentMessages = messages;
-    renderEmails(messages);
-    if (messages.length > 0) {
-        updateStatus(`Activo - ${messages.length} correo(s) recibido(s)`, true);
-        // CAMBIO: Solo mostrar toast si showMessages es true y showToastMessages es true
+    const allMessages = await fetchMessagesFromTestMailAPI(namespace, tag, fullAlias);
+    const filteredMessages = filterMessagesByService(allMessages, currentService);
+    currentMessages = filteredMessages;
+    renderEmails(filteredMessages);
+    
+    if (filteredMessages.length > 0) {
+        const serviceName = SERVICES_CONFIG[currentService]?.name || currentService;
+        updateStatus(`Activo - ${filteredMessages.length} correo(s) de ${serviceName}`, true);
         if (showMessages && showToastMessages) {
-            showToast(`Se encontraron ${messages.length} mensaje(s)`, 'success');
+            showToast(`Se encontraron ${filteredMessages.length} mensaje(s) de ${serviceName}`, 'success');
         }
     } else {
-        updateStatus('Activo - Esperando correos...', true);
-        // CAMBIO: Solo mostrar toast si showMessages es true y showToastMessages es true
+        const serviceName = SERVICES_CONFIG[currentService]?.name || currentService;
+        updateStatus(`Activo - Sin mensajes de ${serviceName}`, true);
         if (showMessages && showToastMessages) {
-            showToast('No se encontraron mensajes para este correo', 'warning');
+            showToast(`No se encontraron mensajes de ${serviceName}`, 'warning');
         }
     }
+}
+
+function filterMessagesByService(messages, service) {
+    if (!service || !STREAMING_FILTERS[service]) {
+        return messages;
+    }
+    const keywords = STREAMING_FILTERS[service];
+    return messages.filter(message => {
+        const subject = (message.subject || '').toLowerCase();
+        const from = (message.from || '').toLowerCase();
+        return keywords.some(keyword => subject.includes(keyword.toLowerCase()) || from.includes(keyword.toLowerCase()));
+    });
 }
 
 async function fetchMessagesFromTestMailAPI(namespace, tag, fullAlias) {
@@ -226,10 +247,11 @@ async function fetchMessagesFromTestMailAPI(namespace, tag, fullAlias) {
 function renderEmails(messages) {
     const emailList = document.getElementById('emailList');
     if (!messages || messages.length === 0) {
+        const serviceName = SERVICES_CONFIG[currentService]?.name || 'este servicio';
         emailList.innerHTML = `
             <div class="no-emails">
                 <i class="fas fa-inbox"></i>
-                <p>No hay correos recibidos aún</p>
+                <p>No hay correos de ${serviceName} recibidos aún</p>
                 <small>Los nuevos mensajes aparecerán aquí automáticamente</small>
             </div>
         `;
@@ -250,14 +272,11 @@ function renderEmails(messages) {
 function openEmailModal(messageId) {
     const message = currentMessages?.find(m => m.id === messageId);
     if (!message) return;
-    
     window.currentModalMessage = message;
-    
     document.getElementById('modalSubject').textContent = message.subject || 'Sin asunto';
     document.getElementById('modalFrom').textContent = message.from || 'Desconocido';
     document.getElementById('modalTo').textContent = currentPrincipalEmail || message.to;
     document.getElementById('modalDate').textContent = formatDate(message.timestamp, true);
-    
     const contentDiv = document.getElementById('modalContent');
     if (message.html) {
         const iframe = document.createElement('iframe');
@@ -273,7 +292,6 @@ function openEmailModal(messageId) {
     } else {
         contentDiv.innerHTML = '<p style="color: var(--gray-500); font-style: italic;">Este email no tiene contenido.</p>';
     }
-    
     document.getElementById('emailModal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     message.isRead = true;
@@ -334,7 +352,6 @@ ${getTextFromHtml(message.html || message.text)}
     });
 }
 
-// CAMBIO: Función actualizada para mostrar toast solo cuando el usuario presiona manualmente
 async function refreshMessages() {
     if (!currentAlias || !currentPrincipalEmail) return;
     try {
@@ -343,7 +360,6 @@ async function refreshMessages() {
         refreshBtn.disabled = true;
         const aliasInfo = parseTestMailAlias(currentAlias);
         if (aliasInfo) {
-            // CAMBIO: Activar mensajes toast solo para actualización manual
             showToastMessages = true;
             await loadMessagesFromTestMail(aliasInfo.namespace, aliasInfo.tag, currentAlias, true);
             showToast('Mensajes actualizados', 'success');
@@ -363,18 +379,16 @@ function handleAutoRefreshChange() {
     const interval = parseInt(document.getElementById('autoRefresh').value);
     clearRefreshInterval();
     if (interval > 0) {
-        refreshInterval = setInterval(autoRefreshMessages, interval); // CAMBIO: Función separada para auto-refresh
+        refreshInterval = setInterval(autoRefreshMessages, interval);
         showToast(`Auto-actualización configurada cada ${interval/1000} segundos`, 'success');
     }
 }
 
-// NUEVA FUNCIÓN: Auto-refresh silencioso (sin mensajes toast)
 async function autoRefreshMessages() {
     if (!currentAlias || !currentPrincipalEmail) return;
     try {
         const aliasInfo = parseTestMailAlias(currentAlias);
         if (aliasInfo) {
-            // CAMBIO: Desactivar mensajes toast para auto-refresh
             showToastMessages = false;
             await loadMessagesFromTestMail(aliasInfo.namespace, aliasInfo.tag, currentAlias, false);
         }
@@ -386,7 +400,7 @@ async function autoRefreshMessages() {
 function setupAutoRefresh() {
     const interval = parseInt(document.getElementById('autoRefresh').value);
     if (interval > 0) {
-        refreshInterval = setInterval(autoRefreshMessages, interval); // CAMBIO: Usar función silenciosa
+        refreshInterval = setInterval(autoRefreshMessages, interval);
     }
 }
 
@@ -400,11 +414,13 @@ function clearRefreshInterval() {
 function updateStatus(text, isActive) {
     const statusText = document.getElementById('statusText');
     const statusDot = document.getElementById('statusDot');
-    statusText.textContent = text;
-    if (isActive) {
-        statusDot.classList.add('active');
-    } else {
-        statusDot.classList.remove('active');
+    if (statusText) statusText.textContent = text;
+    if (statusDot) {
+        if (isActive) {
+            statusDot.classList.add('active');
+        } else {
+            statusDot.classList.remove('active');
+        }
     }
 }
 
@@ -501,47 +517,6 @@ function handleApiError(error) {
         userMessage += 'Error desconocido: ' + error.message;
     }
     showToast(userMessage, 'error');
-}
-
-function addDebugButton() {
-    const debugContainer = document.createElement('div');
-    debugContainer.style.position = 'fixed';
-    debugContainer.style.top = '10px';
-    debugContainer.style.right = '10px';
-    debugContainer.style.zIndex = '9999';
-    debugContainer.style.display = 'flex';
-    debugContainer.style.flexDirection = 'column';
-    debugContainer.style.gap = '5px';
-    
-    const testmailButton = document.createElement('button');
-    testmailButton.textContent = '📧 TestMail';
-    testmailButton.style.padding = '6px 10px';
-    testmailButton.style.backgroundColor = '#28a745';
-    testmailButton.style.color = 'white';
-    testmailButton.style.border = 'none';
-    testmailButton.style.borderRadius = '4px';
-    testmailButton.style.cursor = 'pointer';
-    testmailButton.style.fontSize = '11px';
-    testmailButton.onclick = async () => {
-        showLoading(true);
-        const testAlias = 'wjlcs.netflixhns@inbox.testmail.app';
-        const testEmail = 'test@ejemplo.com';
-        const aliasInfo = parseTestMailAlias(testAlias);
-        if (aliasInfo) {
-            currentAlias = testAlias;
-            currentPrincipalEmail = testEmail;
-            document.getElementById('principalEmailDisplay').textContent = testEmail;
-            showToastMessages = true;
-            await loadMessagesFromTestMail(aliasInfo.namespace, aliasInfo.tag, testAlias);
-            showMessagesSection();
-            setupAutoRefresh();
-            showToast('Prueba de TestMail ejecutada.', 'success');
-        }
-        showLoading(false);
-    };
-    
-    debugContainer.appendChild(testmailButton);
-    document.body.appendChild(debugContainer);
 }
 
 // Configuración de servicios
