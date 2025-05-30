@@ -13,8 +13,10 @@ const TESTMAIL_CONFIG = {
 
 let currentService = null;
 let currentAlias = null;
+let currentPrincipalEmail = null;
 let refreshInterval = null;
 let currentMessages = [];
+let showToastMessages = true; // NUEVA VARIABLE: Controla cuándo mostrar mensajes
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
@@ -34,6 +36,7 @@ function initializeEventListeners() {
         if (e.target === this) closeModal();
     });
     document.getElementById('copyFullMessage').addEventListener('click', copyFullMessage);
+    document.getElementById('copyPrincipalEmailBtn').addEventListener('click', copyPrincipalEmail);
 }
 
 function selectService(serviceKey) {
@@ -52,12 +55,14 @@ function showServiceSelection() {
     document.getElementById('serviceSelection').classList.remove('hidden');
     document.getElementById('emailInput').classList.add('hidden');
     document.getElementById('messagesSection').classList.add('hidden');
+    document.getElementById('inboxSection').classList.add('hidden');
 }
 
 function showEmailInput() {
     document.getElementById('serviceSelection').classList.add('hidden');
     document.getElementById('emailInput').classList.remove('hidden');
     document.getElementById('messagesSection').classList.add('hidden');
+    document.getElementById('inboxSection').classList.add('hidden');
     document.getElementById('userEmail').value = '';
     document.getElementById('emailError').textContent = '';
     setTimeout(() => {
@@ -69,15 +74,20 @@ function showMessagesSection() {
     document.getElementById('serviceSelection').classList.add('hidden');
     document.getElementById('emailInput').classList.add('hidden');
     document.getElementById('messagesSection').classList.remove('hidden');
+    document.getElementById('inboxSection').classList.remove('hidden');
 }
 
 function backToServices() {
     currentService = null;
+    currentPrincipalEmail = null;
+    currentAlias = null;
     clearRefreshInterval();
     showServiceSelection();
 }
 
 function backToEmailInput() {
+    currentPrincipalEmail = null;
+    currentAlias = null;
     clearRefreshInterval();
     showEmailInput();
 }
@@ -110,12 +120,17 @@ async function handleConsultClick() {
             showToast('El formato del alias no es válido para TestMail.', 'error');
             return;
         }
+        
+        currentPrincipalEmail = email;
         currentAlias = alias;
-        document.getElementById('aliasDisplay').textContent = alias;
+        document.getElementById('principalEmailDisplay').textContent = currentPrincipalEmail;
+        
+        // CAMBIO: Activar mensajes toast solo para consulta inicial
+        showToastMessages = true;
         await loadMessagesFromTestMail(aliasInfo.namespace, aliasInfo.tag, alias);
         showMessagesSection();
         setupAutoRefresh();
-        showToast(`Alias encontrado: ${alias}`, 'success');
+        showToast(`Conexión establecida para: ${currentPrincipalEmail}`, 'success');
     } catch (error) {
         console.error('Error al consultar:', error);
         handleApiError(error);
@@ -125,7 +140,6 @@ async function handleConsultClick() {
 }
 
 function parseTestMailAlias(alias) {
-    // Ejemplo: wjlcs.netflixhns@inbox.testmail.app
     const match = alias.match(/^([^.]+)\.([^@]+)@inbox\.testmail\.app$/);
     if (match) {
         return {
@@ -165,14 +179,23 @@ async function findAliasInSheets(email, service) {
     return null;
 }
 
-async function loadMessagesFromTestMail(namespace, tag, fullAlias) {
+// CAMBIO: Función actualizada con parámetro para controlar mensajes toast
+async function loadMessagesFromTestMail(namespace, tag, fullAlias, showMessages = true) {
     const messages = await fetchMessagesFromTestMailAPI(namespace, tag, fullAlias);
     currentMessages = messages;
-    displayMessages(messages);
+    renderEmails(messages);
     if (messages.length > 0) {
-        showToast(`Se encontraron ${messages.length} mensaje(s)`, 'success');
+        updateStatus(`Activo - ${messages.length} correo(s) recibido(s)`, true);
+        // CAMBIO: Solo mostrar toast si showMessages es true y showToastMessages es true
+        if (showMessages && showToastMessages) {
+            showToast(`Se encontraron ${messages.length} mensaje(s)`, 'success');
+        }
     } else {
-        showToast('No se encontraron mensajes para este alias', 'warning');
+        updateStatus('Activo - Esperando correos...', true);
+        // CAMBIO: Solo mostrar toast si showMessages es true y showToastMessages es true
+        if (showMessages && showToastMessages) {
+            showToast('No se encontraron mensajes para este correo', 'warning');
+        }
     }
 }
 
@@ -191,34 +214,35 @@ async function fetchMessagesFromTestMailAPI(namespace, tag, fullAlias) {
     return emails.map((email, index) => ({
         id: email.id || `msg_${Date.now()}_${index}`,
         from: email.from || 'Remitente desconocido',
-        to: email.to || fullAlias,
+        to: email.to || currentPrincipalEmail,
         subject: email.subject || 'Sin asunto',
-        date: email.timestamp ? new Date(email.timestamp * 1000).toISOString() : (email.date ? new Date(email.date).toISOString() : new Date().toISOString()),
-        content: email.html || (email.text ? `<pre>${escapeHtml(email.text)}</pre>` : ''),
+        timestamp: email.timestamp || Math.floor(Date.now() / 1000),
+        html: email.html || '',
+        text: email.text || '',
         isRead: false
     }));
 }
 
-function displayMessages(messages) {
-    const messagesList = document.getElementById('messagesList');
+function renderEmails(messages) {
+    const emailList = document.getElementById('emailList');
     if (!messages || messages.length === 0) {
-        messagesList.innerHTML = `
+        emailList.innerHTML = `
             <div class="no-emails">
                 <i class="fas fa-inbox"></i>
-                <p>No hay mensajes disponibles</p>
-                <small>Los mensajes aparecerán aquí cuando lleguen al alias: ${currentAlias || ''}</small>
+                <p>No hay correos recibidos aún</p>
+                <small>Los nuevos mensajes aparecerán aquí automáticamente</small>
             </div>
         `;
         return;
     }
-    messagesList.innerHTML = messages.map(message => `
-        <div class="email-item ${!message.isRead ? 'unread' : ''}" onclick="openEmailModal('${message.id}')">
+    emailList.innerHTML = messages.map(email => `
+        <div class="email-item" onclick="openEmailModal('${email.id}')">
             <div class="email-header">
-                <div class="email-subject">${escapeHtml(message.subject)}</div>
-                <div class="email-date">${formatDate(message.date)}</div>
+                <div class="email-subject">${escapeHtml(email.subject || 'Sin asunto')}</div>
+                <div class="email-date">${formatDate(email.timestamp)}</div>
             </div>
-            <div class="email-from">De: ${escapeHtml(message.from)}</div>
-            <div class="email-preview">${getTextPreview(message.content)}</div>
+            <div class="email-from">De: ${escapeHtml(email.from || 'Desconocido')}</div>
+            <div class="email-preview">${getEmailPreview(email)}</div>
         </div>
     `).join('');
 }
@@ -226,19 +250,70 @@ function displayMessages(messages) {
 function openEmailModal(messageId) {
     const message = currentMessages?.find(m => m.id === messageId);
     if (!message) return;
-    document.getElementById('modalSubject').textContent = message.subject;
-    document.getElementById('modalFrom').textContent = message.from;
-    document.getElementById('modalTo').textContent = message.to;
-    document.getElementById('modalDate').textContent = formatDate(message.date);
-    document.getElementById('modalContent').innerHTML = message.content;
+    
     window.currentModalMessage = message;
+    
+    document.getElementById('modalSubject').textContent = message.subject || 'Sin asunto';
+    document.getElementById('modalFrom').textContent = message.from || 'Desconocido';
+    document.getElementById('modalTo').textContent = currentPrincipalEmail || message.to;
+    document.getElementById('modalDate').textContent = formatDate(message.timestamp, true);
+    
+    const contentDiv = document.getElementById('modalContent');
+    if (message.html) {
+        const iframe = document.createElement('iframe');
+        iframe.srcdoc = message.html;
+        iframe.style.width = '100%';
+        iframe.style.minHeight = '400px';
+        iframe.style.border = '1px solid var(--gray-200)';
+        iframe.style.borderRadius = 'var(--radius)';
+        contentDiv.innerHTML = '';
+        contentDiv.appendChild(iframe);
+    } else if (message.text) {
+        contentDiv.innerHTML = `<pre style="white-space: pre-wrap; font-family: inherit;">${escapeHtml(message.text)}</pre>`;
+    } else {
+        contentDiv.innerHTML = '<p style="color: var(--gray-500); font-style: italic;">Este email no tiene contenido.</p>';
+    }
+    
     document.getElementById('emailModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
     message.isRead = true;
-    displayMessages(currentMessages);
+    renderEmails(currentMessages);
 }
 
 function closeModal() {
     document.getElementById('emailModal').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+function getEmailPreview(email) {
+    let preview = '';
+    if (email.text) {
+        preview = email.text.replace(/\s+/g, ' ').trim();
+    } else if (email.html) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = email.html;
+        preview = tempDiv.textContent || tempDiv.innerText || '';
+        preview = preview.replace(/\s+/g, ' ').trim();
+    }
+    if (preview.length > 120) {
+        preview = preview.substring(0, 120) + '...';
+    }
+    return escapeHtml(preview) || '<em>Sin contenido de vista previa</em>';
+}
+
+async function copyPrincipalEmail() {
+    if (!currentPrincipalEmail) return;
+    try {
+        await navigator.clipboard.writeText(currentPrincipalEmail);
+        showToast('Correo principal copiado al portapapeles', 'success');
+        const btn = document.getElementById('copyPrincipalEmailBtn');
+        btn.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            btn.style.transform = '';
+        }, 150);
+    } catch (error) {
+        showToast('Error al copiar el correo', 'error');
+    }
 }
 
 function copyFullMessage() {
@@ -247,10 +322,10 @@ function copyFullMessage() {
     const fullText = `
 Asunto: ${message.subject}
 De: ${message.from}
-Para: ${message.to}
-Fecha: ${formatDate(message.date)}
+Para: ${currentPrincipalEmail || message.to}
+Fecha: ${formatDate(message.timestamp, true)}
 
-${getTextFromHtml(message.content)}
+${getTextFromHtml(message.html || message.text)}
     `.trim();
     navigator.clipboard.writeText(fullText).then(() => {
         showToast('Mensaje completo copiado al portapapeles', 'success');
@@ -259,15 +334,18 @@ ${getTextFromHtml(message.content)}
     });
 }
 
+// CAMBIO: Función actualizada para mostrar toast solo cuando el usuario presiona manualmente
 async function refreshMessages() {
-    if (!currentAlias) return;
+    if (!currentAlias || !currentPrincipalEmail) return;
     try {
         const refreshBtn = document.getElementById('refreshMessages');
         refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Actualizando...';
         refreshBtn.disabled = true;
         const aliasInfo = parseTestMailAlias(currentAlias);
         if (aliasInfo) {
-            await loadMessagesFromTestMail(aliasInfo.namespace, aliasInfo.tag, currentAlias);
+            // CAMBIO: Activar mensajes toast solo para actualización manual
+            showToastMessages = true;
+            await loadMessagesFromTestMail(aliasInfo.namespace, aliasInfo.tag, currentAlias, true);
             showToast('Mensajes actualizados', 'success');
         } else {
             showToast('Error: formato de alias inválido', 'error');
@@ -285,15 +363,30 @@ function handleAutoRefreshChange() {
     const interval = parseInt(document.getElementById('autoRefresh').value);
     clearRefreshInterval();
     if (interval > 0) {
-        refreshInterval = setInterval(refreshMessages, interval);
+        refreshInterval = setInterval(autoRefreshMessages, interval); // CAMBIO: Función separada para auto-refresh
         showToast(`Auto-actualización configurada cada ${interval/1000} segundos`, 'success');
+    }
+}
+
+// NUEVA FUNCIÓN: Auto-refresh silencioso (sin mensajes toast)
+async function autoRefreshMessages() {
+    if (!currentAlias || !currentPrincipalEmail) return;
+    try {
+        const aliasInfo = parseTestMailAlias(currentAlias);
+        if (aliasInfo) {
+            // CAMBIO: Desactivar mensajes toast para auto-refresh
+            showToastMessages = false;
+            await loadMessagesFromTestMail(aliasInfo.namespace, aliasInfo.tag, currentAlias, false);
+        }
+    } catch (error) {
+        console.error('Error en auto-refresh:', error);
     }
 }
 
 function setupAutoRefresh() {
     const interval = parseInt(document.getElementById('autoRefresh').value);
     if (interval > 0) {
-        refreshInterval = setInterval(refreshMessages, interval);
+        refreshInterval = setInterval(autoRefreshMessages, interval); // CAMBIO: Usar función silenciosa
     }
 }
 
@@ -304,44 +397,68 @@ function clearRefreshInterval() {
     }
 }
 
+function updateStatus(text, isActive) {
+    const statusText = document.getElementById('statusText');
+    const statusDot = document.getElementById('statusDot');
+    statusText.textContent = text;
+    if (isActive) {
+        statusDot.classList.add('active');
+    } else {
+        statusDot.classList.remove('active');
+    }
+}
+
+function formatDate(timestamp, detailed = false) {
+    if (!timestamp) return 'Fecha desconocida';
+    const date = new Date(timestamp * 1000);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+    if (detailed) {
+        return date.toLocaleString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+    
+    if (diffDays === 0) {
+        return date.toLocaleTimeString('es-ES', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+    } else if (diffDays === 1) {
+        return 'Ayer';
+    } else if (diffDays < 7) {
+        return `Hace ${diffDays} días`;
+    } else {
+        return date.toLocaleDateString('es-ES', {
+            day: 'numeric',
+            month: 'short'
+        });
+    }
+}
+
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
 
 function escapeHtml(text) {
+    if (!text) return '';
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
 }
 
-function getTextPreview(html) {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    const text = div.textContent || div.innerText || '';
-    return text.substring(0, 150) + (text.length > 150 ? '...' : '');
-}
-
 function getTextFromHtml(html) {
+    if (!html) return '';
     const div = document.createElement('div');
     div.innerHTML = html;
     return div.textContent || div.innerText || '';
-}
-
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInMinutes = Math.floor((now - date) / (1000 * 60));
-    if (diffInMinutes < 1) return 'Ahora';
-    if (diffInMinutes < 60) return `Hace ${diffInMinutes}m`;
-    if (diffInMinutes < 1440) return `Hace ${Math.floor(diffInMinutes/60)}h`;
-    return date.toLocaleDateString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
 }
 
 function showLoading(show) {
@@ -359,7 +476,13 @@ function showToast(message, type = 'success') {
                  'fas fa-exclamation-triangle';
     toast.innerHTML = `<i class="${icon}"></i><span>${message}</span>`;
     container.appendChild(toast);
-    setTimeout(() => { toast.remove(); }, 6000);
+    setTimeout(() => { 
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 300);
+    }, 4000);
 }
 
 function handleApiError(error) {
@@ -389,6 +512,7 @@ function addDebugButton() {
     debugContainer.style.display = 'flex';
     debugContainer.style.flexDirection = 'column';
     debugContainer.style.gap = '5px';
+    
     const testmailButton = document.createElement('button');
     testmailButton.textContent = '📧 TestMail';
     testmailButton.style.padding = '6px 10px';
@@ -401,29 +525,37 @@ function addDebugButton() {
     testmailButton.onclick = async () => {
         showLoading(true);
         const testAlias = 'wjlcs.netflixhns@inbox.testmail.app';
+        const testEmail = 'test@ejemplo.com';
         const aliasInfo = parseTestMailAlias(testAlias);
         if (aliasInfo) {
+            currentAlias = testAlias;
+            currentPrincipalEmail = testEmail;
+            document.getElementById('principalEmailDisplay').textContent = testEmail;
+            showToastMessages = true;
             await loadMessagesFromTestMail(aliasInfo.namespace, aliasInfo.tag, testAlias);
+            showMessagesSection();
+            setupAutoRefresh();
             showToast('Prueba de TestMail ejecutada.', 'success');
         }
         showLoading(false);
     };
+    
     debugContainer.appendChild(testmailButton);
     document.body.appendChild(debugContainer);
 }
 
-// Agrega tu SERVICES_CONFIG aquí, igual que antes (por brevedad, lo puedes copiar del código anterior)
+// Configuración de servicios
 const SERVICES_CONFIG = {
     netflix: {
         name: 'Netflix',
-        icon: 'fab fa-netflix',
+        icon: 'fa-solid fa-n',
         iconClass: 'netflix',
         description: 'Mensajes de verificación y notificaciones de Netflix',
         instruction: 'Ingresa tu correo principal de Netflix para ver todos los mensajes de verificación y notificaciones'
     },
     disney: {
         name: 'Disney+',
-        icon: 'fas fa-play',
+        icon: 'fa-solid fa-tv',
         iconClass: 'disney',
         description: 'Mensajes de acceso y comunicaciones de Disney+',
         instruction: 'Ingresa tu correo principal de Disney+ para ver todos los mensajes de acceso y comunicaciones'
@@ -435,27 +567,4 @@ const SERVICES_CONFIG = {
         description: 'Mensajes de Prime Video y verificaciones de Amazon',
         instruction: 'Ingresa tu correo principal de Amazon para ver todos los mensajes de Prime Video y verificaciones'
     }
-}
-function formatEmailContent(email) {
-    // Si el correo tiene HTML, lo mostramos centrado y estilizado.
-    if (email.html) {
-        return `
-            <div class="email-content-centered">
-                ${email.html}
-            </div>
-        `;
-    }
-    // Si solo hay texto plano, también lo centramos.
-    if (email.text) {
-        return `
-            <div class="email-content-centered email-content-plain">
-                ${autoLink(escapeHtml(email.text))}
-            </div>
-        `;
-    }
-    return `
-        <div class="email-content-centered email-content-empty">
-            <em>No hay contenido disponible para este mensaje.</em>
-        </div>
-    `;
 };

@@ -7,6 +7,39 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos específicos para el botón Cambiar mejorado */
+        .change-email-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .change-email-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+
+        .change-email-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .change-email-btn i {
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -20,7 +53,7 @@
                 <p class="subtitle">Acceso automático a mensajes de servicios de streaming</p>
                 <button class="back-button" onclick="goBack()">
                     <i class="fas fa-arrow-left"></i>
-                    Volver al Hub
+                    Volver al inicio
                 </button>
             </div>
         </header>
@@ -37,7 +70,7 @@
                 <div class="streaming-services">
                     <div class="streaming-card" data-service="netflix" onclick="selectService('netflix')">
                         <div class="streaming-icon netflix">
-                            <i class="fab fa-netflix"></i>
+                            <i class="fa-solid fa-n"></i>
                         </div>
                         <div class="streaming-content">
                             <h3>Netflix</h3>
@@ -50,7 +83,7 @@
 
                     <div class="streaming-card" data-service="disney" onclick="selectService('disney')">
                         <div class="streaming-icon disney">
-                            <i class="fas fa-play"></i>
+                            <i class="fa-solid fa-tv"></i>
                         </div>
                         <div class="streaming-content">
                             <h3>Disney+</h3>
@@ -118,41 +151,62 @@
                 </div>
             </section>
 
-            <!-- Messages Section -->
+            <!-- Messages Section - Botón Cambiar mejorado -->
             <section id="messagesSection" class="messages-section hidden">
-                <div class="messages-card">
-                    <div class="messages-header">
-                        <div class="header-left">
-                            <button class="back-service-btn" onclick="backToEmailInput()">
-                                <i class="fas fa-arrow-left"></i>
-                            </button>
-                            <div>
-                                <h3>
-                                    <i class="fas fa-inbox"></i>
-                                    Mensajes Completos
-                                </h3>
-                                <p>Alias: <span id="aliasDisplay"></span></p>
-                            </div>
+                <div class="email-card">
+                    <h3>Tu correo principal está activo</h3>
+                    <div class="email-display">
+                        <div class="email-address">
+                            <i class="fas fa-envelope"></i>
+                            <span id="principalEmailDisplay"></span>
                         </div>
-                        <div class="messages-controls">
+                        <button id="copyPrincipalEmailBtn" class="btn-copy" title="Copiar al portapapeles">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="email-status">
+                        <div class="status-indicator">
+                            <div id="statusDot" class="status-dot active"></div>
+                            <span id="statusText">Activo - Esperando correos...</span>
+                        </div>
+                        <div class="email-actions">
+                            <!-- BOTÓN CAMBIAR MEJORADO -->
+                            <button class="change-email-btn" onclick="backToEmailInput()" title="Cambiar correo">
+                                <i class="fas fa-exchange-alt"></i>
+                                Cambiar correo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Inbox Section -->
+            <section id="inboxSection" class="inbox-section hidden">
+                <div class="inbox-card">
+                    <div class="inbox-header">
+                        <h3>
+                            <i class="fas fa-inbox"></i>
+                            Bandeja de Entrada
+                        </h3>
+                        <div class="inbox-controls">
                             <button id="refreshMessages" class="btn-secondary">
                                 <i class="fas fa-sync"></i>
                                 Actualizar
                             </button>
                             <select id="autoRefresh" class="refresh-select">
                                 <option value="0">Manual</option>
+                                <option value="5000">5 segundos</option>
                                 <option value="10000" selected>10 segundos</option>
                                 <option value="30000">30 segundos</option>
                                 <option value="60000">1 minuto</option>
                             </select>
                         </div>
                     </div>
-                    
-                    <div id="messagesList" class="email-list">
+                    <div id="emailList" class="email-list">
                         <div class="no-emails">
                             <i class="fas fa-inbox"></i>
-                            <p>No hay mensajes disponibles</p>
-                            <small>Los mensajes aparecerán aquí cuando estén disponibles</small>
+                            <p>No hay correos recibidos aún</p>
+                            <small>Los nuevos mensajes aparecerán aquí automáticamente</small>
                         </div>
                     </div>
                 </div>
