@@ -122,6 +122,27 @@ body {
 .nav-item i {
     font-size: 1rem;
 }
+/* Mostrar texto en móvil para navegación */
+@media (max-width: 768px) {
+    .nav-item {
+        padding: 10px 15px;
+        font-size: 0.85rem;
+        min-width: auto;
+    }
+    
+    .nav-item span {
+        display: inline !important;
+    }
+    
+    .nav-item i {
+        font-size: 0.9rem;
+    }
+    
+    .services-nav {
+        gap: 3px;
+        padding: 3px;
+    }
+}
 
 .header {
     text-align: center;
@@ -193,21 +214,35 @@ body {
     gap: 12px;
     align-items: stretch;
 }
-
-.input-container input {
-    flex: 1;
-    padding: 12px 16px;
-    border: 2px solid var(--gray-300);
-    border-radius: var(--radius);
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background: var(--white);
+/* Mejoras para móvil - Botones Generar y Aleatorio */
+@media (max-width: 768px) {
+    .input-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .input-container input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .input-container .btn-primary,
+    .input-container .btn-secondary {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 20px;
+        font-size: 1rem;
+        min-height: 48px;
+        white-space: nowrap;
+    }
 }
 
-.input-container input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(11, 98, 106, 0.12);
+/* Desktop - mantener diseño horizontal */
+@media (min-width: 769px) {
+    .input-container {
+        flex-direction: row;
+        align-items: stretch;
+    }
 }
 
 .input-help {
