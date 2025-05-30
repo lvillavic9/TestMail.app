@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HANS TempMail - Hub Principal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">
+                    <i class="fas fa-envelope-open-text"></i>
+                    HANS TempMail
+                </h1>
+                <p class="subtitle">Hub de servicios de correo temporal y gestión automática</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Services Grid Section -->
+            <section class="services-grid">
+                <div class="services-header">
+                    <h2>Selecciona un Servicio</h2>
+                    <p>Elige entre nuestros servicios de correo temporal y gestión automática de códigos</p>
+                </div>
+                
+                <div class="services-container">
+                    <!-- TempMail Clásico Card -->
+                    <div class="service-card" onclick="navigateToService('index.html')">
+                        <div class="service-icon">
+                            <i class="fas fa-inbox"></i>
+                        </div>
+                        <div class="service-content">
+                            <h3>TempMail Clásico</h3>
+                            <p>Genera correos temporales seguros y privados para proteger tu identidad online</p>
+                            <div class="service-features">
+                                <span class="feature-tag">
+                                    <i class="fas fa-shield-alt"></i>
+                                    Anónimo
+                                </span>
+                                <span class="feature-tag">
+                                    <i class="fas fa-clock"></i>
+                                    Temporal
+                                </span>
+                                <span class="feature-tag">
+                                    <i class="fas fa-lock"></i>
+                                    Seguro
+                                </span>
+                            </div>
+                        </div>
+                        <div class="service-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    <!-- Auto-Gestión de Códigos Card -->
+                    <div class="service-card" onclick="navigateToService('codigo-manager.html')">
+                        <div class="service-icon streaming">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="service-content">
+                            <h3>Auto-Gestión de Códigos</h3>
+                            <p>Accede automáticamente a los mensajes completos de tus servicios de streaming favoritos</p>
+                            <div class="service-features">
+                                <span class="feature-tag">
+                                    <i class="fab fa-netflix"></i>
+                                    Netflix
+                                </span>
+                                <span class="feature-tag">
+                                    <i class="fas fa-play"></i>
+                                    Disney+
+                                </span>
+                                <span class="feature-tag">
+                                    <i class="fab fa-amazon"></i>
+                                    Prime Video
+                                </span>
+                            </div>
+                        </div>
+                        <div class="service-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Info Section -->
+            <section class="quick-info">
+                <div class="info-card">
+                    <div class="info-content">
+                        <h3>
+                            <i class="fas fa-lightbulb"></i>
+                            ¿Cómo funciona?
+                        </h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-number">1</div>
+                                <div class="info-text">
+                                    <strong>Selecciona un servicio</strong>
+                                    <p>Elige entre TempMail clásico o gestión automática de códigos</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-number">2</div>
+                                <div class="info-text">
+                                    <strong>Configura tu correo</strong>
+                                    <p>Genera un alias temporal o conecta tu correo principal</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-number">3</div>
+                                <div class="info-text">
+                                    <strong>Recibe mensajes</strong>
+                                    <p>Visualiza todos los correos de forma segura y automática</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 TempMail Pro - Desarrollado por @romel.jeans</p>
+        </footer>
+    </div>
+
+    <script>
+        function navigateToService(page) {
+            // Efecto de transición suave
+            document.body.style.opacity = '0.8';
+            setTimeout(() => {
+                window.location.href = page;
+            }, 200);
+        }
+
+        // Animaciones de entrada
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.service-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
