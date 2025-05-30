@@ -1377,3 +1377,355 @@ body {
     margin-bottom: 15px;
     opacity: 0.5;
 }
+
+/* ============================================ */
+/* RESPONSIVE DESIGN MEJORADO - NUEVA VERSIÓN */
+/* ============================================ */
+
+/* Tablets Grandes (Landscape) */
+@media (min-width: 1025px) and (max-width: 1400px) {
+    .container {
+        max-width: 1100px;
+        padding: 15px;
+    }
+    
+    .services-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+    
+    .professional-header {
+        padding: 18px 25px;
+    }
+    
+    .brand-logo {
+        font-size: 1.6rem;
+    }
+}
+
+/* Tablets Medianas */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .services-container {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+    }
+    
+    .service-card {
+        padding: 25px;
+        gap: 15px;
+    }
+    
+    .streaming-services {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .modal-content {
+        max-width: 90vw;
+    }
+}
+
+/* Tablets Pequeñas y Móviles Grandes */
+@media (min-width: 481px) and (max-width: 768px) {
+    .professional-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+        gap: 15px;
+    }
+    
+    .services-nav {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .nav-item {
+        flex: 1;
+        justify-content: center;
+        font-size: 0.85rem;
+        padding: 12px 15px;
+    }
+    
+    .input-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .input-container input {
+        width: 100%;
+    }
+    
+    .email-display {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .email-status {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .inbox-header-compact {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .inbox-controls {
+        justify-content: center;
+    }
+}
+
+/* Móviles Pequeños */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .professional-header {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .brand-logo {
+        font-size: 1.4rem;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .brand-tagline {
+        font-size: 0.8rem;
+    }
+    
+    .nav-item {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .nav-item span {
+        display: none; /* Solo iconos en móviles muy pequeños */
+    }
+    
+    .generator-card,
+    .email-card,
+    .inbox-card {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .btn-primary,
+    .btn-secondary,
+    .btn-danger {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+    }
+    
+    .email-address {
+        font-size: 0.9rem;
+        word-break: break-all;
+    }
+    
+    .modal-content {
+        margin: 10px;
+        max-height: 95vh;
+    }
+    
+    .modal-header-compact {
+        padding: 10px 15px;
+    }
+    
+    .modal-body {
+        padding: 15px;
+    }
+    
+    .email-item {
+        padding: 15px;
+    }
+    
+    .email-header {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .services-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    .service-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+}
+
+/* ORIENTACIÓN LANDSCAPE - REGLAS ESPECÍFICAS */
+@media (max-height: 500px) and (orientation: landscape) {
+    .professional-header {
+        padding: 10px 20px;
+        margin-bottom: 15px;
+    }
+    
+    .brand-logo {
+        font-size: 1.2rem;
+        flex-direction: row;
+        gap: 8px;
+    }
+    
+    .brand-tagline {
+        display: none; /* Ocultar en landscape para ahorrar espacio */
+    }
+    
+    .generator-card,
+    .email-card,
+    .inbox-card {
+        padding: 15px;
+    }
+    
+    .modal-content {
+        max-height: 85vh;
+        margin: 20px;
+    }
+    
+    .no-emails {
+        padding: 30px 20px;
+    }
+    
+    .info-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+    
+    .services-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
+/* Tablets en Landscape */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .services-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .streaming-services {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .info-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Móviles en Landscape */
+@media (max-width: 767px) and (orientation: landscape) {
+    .professional-header {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 8px 15px;
+    }
+    
+    .services-nav {
+        width: auto;
+    }
+    
+    .nav-item {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    .main-content {
+        gap: 20px;
+    }
+}
+
+/* MEJORAS ADICIONALES PARA ACCESIBILIDAD TÁCTIL */
+@media (hover: none) and (pointer: coarse) {
+    /* Dispositivos táctiles */
+    .btn-primary,
+    .btn-secondary,
+    .btn-copy,
+    .btn-danger {
+        min-height: 44px; /* Tamaño mínimo para dedos */
+        min-width: 44px;
+    }
+    
+    .email-item {
+        min-height: 60px;
+        cursor: pointer;
+    }
+    
+    .nav-item {
+        min-height: 44px;
+    }
+    
+    /* Aumentar área táctil en elementos pequeños */
+    .btn-close {
+        min-width: 44px;
+        min-height: 44px;
+    }
+}
+
+/* PRINT STYLES - Bonus */
+@media print {
+    .professional-header,
+    .footer,
+    .toast-container,
+    .loading-overlay {
+        display: none !important;
+    }
+    
+    .container {
+        background: white !important;
+        color: black !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+    
+    .generator-card,
+    .email-card,
+    .inbox-card {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+        page-break-inside: avoid;
+    }
+}
+
+/* ALTO CONTRASTE - Accesibilidad */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #000080;
+        --gray-300: #808080;
+        --gray-600: #404040;
+    }
+    
+    .btn-primary {
+        border: 2px solid var(--primary-color);
+    }
+    
+    .email-item {
+        border-width: 2px;
+    }
+}
+
+/* REDUCCIÓN DE MOVIMIENTO - Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .status-dot {
+        animation: none !important;
+    }
+}
