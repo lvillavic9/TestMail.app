@@ -3,38 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HANS TempMail - Correos Temporales</title>
+    <title>HANS TempMail - Correo Temporal Seguro</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <h1 class="logo">
-                    <i class="fas fa-envelope-open-text"></i>
+        <!-- Professional Header with Navigation -->
+        <header class="professional-header">
+            <div class="header-brand">
+                <h1 class="brand-logo">
+    		  <a href="main.html" style="text-decoration: none; color: inherit;">
+                    <i class="fa-solid fa-envelope-open"></i>
                     HANS TempMail
                 </h1>
-                <p class="subtitle">Correos temporales seguros y privados</p>
+                <p class="brand-tagline">Tu privacidad, nuestra prioridad</p>
             </div>
+            <nav class="services-nav">
+                <a href="index.html" class="nav-item active">
+                    <i class="fas fa-inbox"></i>
+                    <span>Correo Temporal</span>
+                </a>
+                <a href="codigo-manager.html" class="nav-item">
+                    <i class="fas fa-code"></i>
+                    <span>Gestión de Códigos</span>
+                </a>
+            </nav>
         </header>
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Email Generator Section -->
-            <section class="email-generator">
+            <!-- Generator Section -->
+            <section class="generator-section">
                 <div class="generator-card">
-                    <h2>Generar Correo Temporal</h2>
+                    <h2>Genera tu Correo Temporal</h2>
                     <div class="input-group">
-                        <label for="tagInput">Ingresa tu alias personalizado:</label>
+                        <label for="tagInput">Personaliza tu alias (opcional):</label>
                         <div class="input-container">
                             <input 
                                 type="text" 
                                 id="tagInput" 
-                                placeholder="mi-alias" 
-                                maxlength="30"
+                                placeholder="mi-alias-personalizado" 
+                                maxlength="50"
                                 autocomplete="off"
                             >
                             <button id="generateBtn" class="btn-primary">
@@ -42,25 +53,14 @@
                                 Generar
                             </button>
                             <button id="randomBtn" class="btn-secondary" title="Generar alias aleatorio">
-                                <i class="fas fa-random"></i>
-                                Aleatorio
-                            </button>                            
+                                <i class="fas fa-dice"></i>
+				Aleatorio
+                            </button>
                         </div>
-                        <div class="input-help" style="text-align: justify;">
-                            Solo letras, números, guiones y puntos. Máximo 30 caracteres.<br>
-                            <strong>Importante:</strong> Nuestro sistema distingue entre mayúsculas y minúsculas en los correos.<br>
+                        <div class="input-important">
+                            <strong>Importante:</strong> Los alias son sensibles a mayúsculas y minúsculas. 
                             Por ejemplo, <span style="font-family: monospace;">TeSt@correo.com</span> y <span style="font-family: monospace;">test@correo.com</span> se consideran cuentas diferentes. 
-                            Asegúrate de ingresar siempre el mismo formato.<br>
-                        </div>
-                        <div class="input-help">
-                            <strong>¿Cómo usar el mensaje temporal?</strong><br>
-                            1. Copia la dirección de correo temporal.<br>
-                            2. Úsala para registrarte en sitios web, redes sociales, y más.<br>
-                            3. Revisa los correos entrantes que se mostrarán aquí.
-                        </div>
-                        <div class="input-help" style="text-align: justify;">
-                            <strong>¿Qué es un email temporal desechable?</strong><br>
-                            Un correo electrónico temporal desechable protege tu dirección real del spam, la publicidad no deseada y posibles amenazas como malware. Es completamente anónimo, gratuito y tiene una duración ilimitada. También se le conoce como “correo de usar y tirar”, “correo temporal”, “correo basura” o “correo falso”. Este tipo de correo puede usarse en diversas situaciones, como registrarse en redes sociales, descargar archivos desde diferentes servidores, o en cualquier momento que desees mantener en privado tu dirección de correo real. Es especialmente útil en redes WiFi públicas, blogs, foros y otras plataformas que requieren registro para acceder a sus servicios.
+                            Asegúrate de ingresar siempre el mismo formato.
                         </div>
                         <div id="tagError" class="error-message"></div>
                     </div>
@@ -102,7 +102,8 @@
             <!-- Inbox Section -->
             <section id="inboxSection" class="inbox-section hidden">
                 <div class="inbox-card">
-                    <div class="inbox-header">
+                    <!-- Encabezado optimizado -->
+                    <div class="inbox-header-compact">
                         <h3>
                             <i class="fas fa-inbox"></i>
                             Bandeja de Entrada
@@ -133,14 +134,16 @@
             <!-- Email Detail Modal -->
             <div id="emailModal" class="modal hidden">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <!-- Encabezado de modal compacto -->
+                    <div class="modal-header-compact">
                         <h3 id="modalSubject"></h3>
                         <button id="closeModal" class="btn-close">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="email-meta">
+                        <!-- Meta información compacta -->
+                        <div class="email-meta-compact">
                             <div class="meta-item">
                                 <strong>De:</strong>
                                 <span id="modalFrom"></span>
@@ -154,24 +157,60 @@
                                 <span id="modalDate"></span>
                             </div>
                         </div>
-                        <div class="email-content">
+                        <!-- Contenido del mensaje destacado -->
+                        <div class="email-content-focused">
                             <div id="modalContent"></div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- How it Works Section - Mejorada -->
+            <section class="how-it-works">
+                <div class="info-card">
+                    <div class="info-content">
+                        <h3>
+                            <i class="fas fa-lightbulb"></i>
+                            ¿Cómo usar tu correo temporal?
+                        </h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-number">1</div>
+                                <div class="info-text">
+                                    <strong>Copia tu dirección temporal</strong>
+                                    <p>Usa el botón de copiar para obtener tu email temporal único</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-number">2</div>
+                                <div class="info-text">
+                                    <strong>Regístrate en sitios web</strong>
+                                    <p>Úsalo en redes sociales, formularios, descargas y más</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-number">3</div>
+                                <div class="info-text">
+                                    <strong>Recibe mensajes aquí</strong>
+                                    <p>Todos los correos aparecerán automáticamente en tu bandeja</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <!-- Footer -->
         <footer class="footer">
-            <p>&copy; 2025 TempMail Pro - Desarrollado por @romel.jeans</p>
+            <p>&copy; 2025 HANS TempMail - Desarrollado por @romel.jeans</p>
         </footer>
 
         <!-- Loading Overlay -->
         <div id="loadingOverlay" class="loading-overlay hidden">
             <div class="loading-spinner">
                 <i class="fas fa-spinner fa-spin"></i>
-                <p>Cargando...</p>
+                <p>Generando correo temporal...</p>
             </div>
         </div>
 

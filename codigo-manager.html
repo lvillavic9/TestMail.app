@@ -43,19 +43,26 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <h1 class="logo">
+        <!-- Professional Header with Navigation -->
+        <header class="professional-header">
+            <div class="header-brand">
+                <h1 class="brand-logo">
+    		  <a href="main.html" style="text-decoration: none; color: inherit;">
                     <i class="fa-solid fa-envelope-open"></i>
-                    Auto-Gestión de Códigos
+                    HANS TempMail
                 </h1>
-                <p class="subtitle">Acceso automático a mensajes de servicios de streaming</p>
-                <button class="back-button" onclick="goBack()">
-                    <i class="fas fa-arrow-left"></i>
-                    Volver al inicio
-                </button>
+                <p class="brand-tagline">Tu privacidad, nuestra prioridad</p>
             </div>
+            <nav class="services-nav">
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-inbox"></i>
+                    <span>Correo Temporal</span>
+                </a>
+                <a href="codigo-manager.html" class="nav-item active">
+                    <i class="fas fa-code"></i>
+                    <span>Gestión de Códigos</span>
+                </a>
+            </nav>
         </header>
 
         <!-- Main Content -->
@@ -83,11 +90,11 @@
 
                     <div class="streaming-card" data-service="disney" onclick="selectService('disney')">
                         <div class="streaming-icon disney">
-                            <i class="fa-solid fa-tv"></i>
+                            <i class="fa-solid fa-d"></i>
                         </div>
                         <div class="streaming-content">
                             <h3>Disney+</h3>
-                            <p>Ver mensajes completos de acceso y comunicaciones de Disney+</p>
+                            <p>Ver mensajes completos de verificación y notificaciones de Disney+</p>
                             <div class="service-instruction">
                                 Ingresa tu correo principal de Disney+ para acceder a todos los mensajes
                             </div>
@@ -96,10 +103,10 @@
 
                     <div class="streaming-card" data-service="amazon" onclick="selectService('amazon')">
                         <div class="streaming-icon amazon">
-                            <i class="fab fa-amazon"></i>
+                            <i class="fa-solid fa-a"></i>
                         </div>
                         <div class="streaming-content">
-                            <h3>Prime Video</h3>
+                            <h3>Amazon Prime</h3>
                             <p>Ver mensajes completos de Prime Video y verificaciones de Amazon</p>
                             <div class="service-instruction">
                                 Ingresa tu correo principal de Amazon para acceder a todos los mensajes
@@ -151,9 +158,17 @@
                 </div>
             </section>
 
-            <!-- Messages Section - Botón Cambiar mejorado -->
+            <!-- Messages Section - Con plataforma seleccionada y espaciado reducido -->
             <section id="messagesSection" class="messages-section hidden">
                 <div class="email-card">
+                    <!-- Nueva sección para mostrar la plataforma seleccionada - ESPACIADO REDUCIDO -->
+                    <div class="selected-platform-header">
+                        <div class="platform-info">
+                            <div id="selectedPlatformIcon" class="service-icon-small"></div>
+                            <span id="selectedPlatformName" class="platform-name"></span>
+                        </div>
+                    </div>
+                    
                     <h3>Tu correo principal está activo</h3>
                     <div class="email-display">
                         <div class="email-address">
@@ -183,7 +198,8 @@
             <!-- Inbox Section -->
             <section id="inboxSection" class="inbox-section hidden">
                 <div class="inbox-card">
-                    <div class="inbox-header">
+                    <!-- Encabezado optimizado -->
+                    <div class="inbox-header-compact">
                         <h3>
                             <i class="fas fa-inbox"></i>
                             Bandeja de Entrada
@@ -215,14 +231,16 @@
             <!-- Email Detail Modal -->
             <div id="emailModal" class="modal hidden">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <!-- Encabezado de modal compacto -->
+                    <div class="modal-header-compact">
                         <h3 id="modalSubject"></h3>
                         <button id="closeModal" class="btn-close">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="email-meta">
+                        <!-- Meta información compacta -->
+                        <div class="email-meta-compact">
                             <div class="meta-item">
                                 <strong>De:</strong>
                                 <span id="modalFrom"></span>
@@ -236,10 +254,10 @@
                                 <span id="modalDate"></span>
                             </div>
                         </div>
-                        <div class="email-content">
+                        <!-- Contenido del mensaje destacado -->
+                        <div class="email-content-focused">
                             <div id="modalContent"></div>
                         </div>
-                        <!-- ELIMINADA: Sección modal-actions con el botón "Copiar Mensaje Completo" -->
                     </div>
                 </div>
             </div>
@@ -247,7 +265,7 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <p>&copy; 2025 TempMail Pro - Desarrollado por @romel.jeans</p>
+            <p>&copy; 2025 HANS TempMail - Desarrollado por @romel.jeans</p>
         </footer>
 
         <!-- Loading Overlay -->

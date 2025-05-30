@@ -80,6 +80,17 @@ function showEmailInput() {
 }
 
 function showMessagesSection() {
+    // Actualizar la información de la plataforma seleccionada en la sección de mensajes
+    const service = SERVICES_CONFIG[currentService];
+    const platformIconElement = document.getElementById('selectedPlatformIcon');
+    const platformNameElement = document.getElementById('selectedPlatformName');
+    
+    if (service && platformIconElement && platformNameElement) {
+        platformIconElement.innerHTML = `<i class="${service.icon}"></i>`;
+        platformIconElement.className = `service-icon-small ${service.iconClass}`;
+        platformNameElement.textContent = service.name;
+    }
+    
     document.getElementById('serviceSelection').classList.add('hidden');
     document.getElementById('emailInput').classList.add('hidden');
     document.getElementById('messagesSection').classList.remove('hidden');

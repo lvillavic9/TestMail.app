@@ -3,27 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HANS TempMail - Hub Principal</title>
+    <title>HANS TempMail - Servicios de Correo Temporal</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <h1 class="logo">
-                    <i class="fas fa-envelope-open-text"></i>
+        <!-- Professional Header with Navigation -->
+        <header class="professional-header">
+            <div class="header-brand">
+                <h1 class="brand-logo">
+    		  <a href="main.html" style="text-decoration: none; color: inherit;">
+                    <i class="fa-solid fa-envelope-open"></i>
                     HANS TempMail
                 </h1>
-                <p class="subtitle">Hub de servicios de correo temporal y gestión automática</p>
+                <p class="brand-tagline">Tu privacidad, nuestra prioridad</p>
             </div>
+            <nav class="services-nav">
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-inbox"></i>
+                    <span>Correo Temporal</span>
+                </a>
+                <a href="codigo-manager.html" class="nav-item">
+                    <i class="fas fa-code"></i>
+                    <span>Gestión de Códigos</span>
+                </a>
+            </nav>
         </header>
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Services Grid Section -->
+            <!-- Services Grid -->
             <section class="services-grid">
                 <div class="services-header">
                     <h2>Selecciona un Servicio</h2>
@@ -62,23 +73,23 @@
                     <!-- Auto-Gestión de Códigos Card -->
                     <div class="service-card" onclick="navigateToService('codigo-manager.html')">
                         <div class="service-icon streaming">
-                            <i class="fa-solid fa-envelope-open"></i>
+                            <i class="fas fa-code"></i>
                         </div>
                         <div class="service-content">
                             <h3>Auto-Gestión de Códigos</h3>
-                            <p>Accede automáticamente a los mensajes completos de tus servicios de streaming favoritos</p>
+                            <p>Accede automáticamente a códigos de verificación de plataformas de streaming</p>
                             <div class="service-features">
                                 <span class="feature-tag">
-                                    <i class="fa-solid fa-n"></i>
-                                    Netflix
+                                    <i class="fas fa-tv"></i>
+                                    Streaming
                                 </span>
                                 <span class="feature-tag">
-                                    <i class="fa-solid fa-tv"></i>
-                                    Disney+
+                                    <i class="fas fa-key"></i>
+                                    Códigos
                                 </span>
                                 <span class="feature-tag">
-                                    <i class="fab fa-amazon"></i>
-                                    Prime Video
+                                    <i class="fas fa-magic"></i>
+                                    Automático
                                 </span>
                             </div>
                         </div>
@@ -127,7 +138,7 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <p>&copy; 2025 TempMail Pro - Desarrollado por @romel.jeans</p>
+            <p>&copy; 2025 HANS TempMail - Desarrollado por @romel.jeans</p>
         </footer>
     </div>
 

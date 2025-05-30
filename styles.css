@@ -46,6 +46,83 @@ body {
     flex-direction: column;
 }
 
+/* Professional Header Styles */
+.professional-header {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 20px 30px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.brand-logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-logo i {
+    font-size: 1.6rem;
+}
+
+.brand-tagline {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    margin: 0;
+    font-weight: 400;
+}
+
+.services-nav {
+    display: flex;
+    gap: 5px;
+    background: var(--gray-50);
+    padding: 5px;
+    border-radius: var(--radius);
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--gray-600);
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.nav-item:hover {
+    background: var(--gray-200);
+    color: var(--gray-800);
+}
+
+.nav-item.active {
+    background: var(--primary-color);
+    color: var(--white);
+    box-shadow: var(--shadow);
+}
+
+.nav-item i {
+    font-size: 1rem;
+}
+
 .header {
     text-align: center;
     margin-bottom: 40px;
@@ -328,6 +405,26 @@ body {
     margin: 0;
 }
 
+/* Compact Header Styles for Inbox */
+.inbox-header-compact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px; /* Reducido de 25px */
+    padding-bottom: 10px; /* Reducido de 15px */
+    border-bottom: 1px solid var(--gray-200);
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.inbox-header-compact h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Reducido de 10px */
+    margin: 0;
+    font-size: 1.1rem; /* Reducido de 1.2rem */
+}
+
 .email-list {
     display: flex;
     flex-direction: column;
@@ -443,6 +540,25 @@ body {
     word-break: break-word;
 }
 
+/* Compact Modal Header */
+.modal-header-compact {
+    padding: 15px 20px; /* Reducido de 25px */
+    border-bottom: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    background: var(--gray-50); /* Fondo sutil */
+}
+
+.modal-header-compact h3 {
+    margin: 0;
+    flex: 1;
+    word-break: break-word;
+    font-size: 1.1rem; /* Reducido */
+    color: var(--gray-700); /* Color más sutil */
+}
+
 .modal-body {
     padding: 25px;
     overflow-y: auto;
@@ -454,6 +570,31 @@ body {
     padding: 20px;
     border-radius: var(--radius);
     margin-bottom: 25px;
+}
+
+/* Compact Email Meta */
+.email-meta-compact {
+    background: var(--gray-50);
+    padding: 12px 15px; /* Reducido de 20px */
+    border-radius: var(--radius);
+    margin-bottom: 15px; /* Reducido de 25px */
+    font-size: 0.85rem; /* Reducido */
+}
+
+.email-meta-compact .meta-item {
+    display: flex;
+    margin-bottom: 6px; /* Reducido de 10px */
+    gap: 8px; /* Reducido de 10px */
+}
+
+.email-meta-compact .meta-item:last-child {
+    margin-bottom: 0;
+}
+
+.email-meta-compact .meta-item strong {
+    min-width: 50px; /* Reducido de 60px */
+    color: var(--gray-600); /* Color más sutil */
+    font-size: 0.8rem;
 }
 
 .meta-item {
@@ -473,6 +614,23 @@ body {
 
 .email-content {
     line-height: 1.6;
+}
+
+/* Focused Email Content */
+.email-content-focused {
+    line-height: 1.6;
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--gray-100);
+}
+
+.email-content-focused iframe {
+    width: 100%;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    min-height: 400px;
 }
 
 .email-content iframe {
@@ -710,6 +868,11 @@ body {
     margin-top: 40px;
 }
 
+/* How it Works Section for Index */
+.how-it-works {
+    margin-top: 40px;
+}
+
 .info-card {
     background: rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-lg);
@@ -901,7 +1064,7 @@ body {
     border-radius: var(--radius-lg);
     padding: 30px;
     box-shadow: var(--shadow-lg);
-    max-width: 600px;
+    max-width: 0 auto;
     margin: 0 auto;
 }
 
@@ -1003,83 +1166,77 @@ body {
     gap: 15px;
 }
 
-.header-left h3 {
-    margin: 0;
+.messages-info {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.messages-title {
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--gray-800);
+    margin: 0;
 }
 
-.header-left p {
-    margin: 0;
+.messages-subtitle {
     font-size: 0.9rem;
     color: var(--gray-600);
-    font-family: monospace;
+    margin: 0;
 }
 
-.messages-controls {
+.messages-actions {
     display: flex;
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
 }
 
-/* Modal Actions */
-.modal-actions {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid var(--gray-200);
-    display: flex;
-    justify-content: flex-end;
+/* Estilos para la cabecera de plataforma seleccionada - ESPACIADO REDUCIDO */
+.selected-platform-header {
+    margin-bottom: 5px; /* Reducido considerablemente */
+    padding-bottom: 5px; /* Reducido considerablemente */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-    .logo {
-        font-size: 2rem;
-    }
-    .generator-card,
-    .email-card,
-    .inbox-card {
-        padding: 20px;
-    }
-    .input-container {
-        flex-direction: column;
-    }
-    .email-display {
-        flex-direction: column;
-        text-align: center;
-    }
-    .email-status {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .inbox-header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .email-header {
-        flex-direction: column;
-        gap: 8px;
-    }
-    .modal-content {
-        margin: 10px;
-        max-height: calc(100vh - 20px);
-    }
-    .modal-header,
-    .modal-body {
-        padding: 20px;
-    }
-    .meta-item {
-        flex-direction: column;
-        gap: 5px;
-    }
+.platform-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.platform-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+/* Asegurar que los iconos de plataforma mantengan su estilo */
+.selected-platform-header .service-icon-small {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.2rem;
+}
+
+.selected-platform-header .service-icon-small.netflix {
+    background: #e50914;
+}
+
+.selected-platform-header .service-icon-small.disney {
+    background: #113ccf;
+}
+
+.selected-platform-header .service-icon-small.amazon {
+    background: #ff9900;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
     .toast-container {
         left: 10px;
         right: 10px;
@@ -1136,6 +1293,35 @@ body {
     }
 }
 
+@media (max-width: 768px) {
+    .professional-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .services-nav {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .nav-item {
+        flex: 1;
+        justify-content: center;
+        font-size: 0.85rem;
+        padding: 10px 15px;
+    }
+    
+    .inbox-header-compact {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .modal-header-compact {
+        padding: 12px 15px;
+    }
+}
+
 @media (max-width: 480px) {
     .logo {
         font-size: 1.8rem;
@@ -1181,41 +1367,13 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #f8fafd;
-    border-radius: 10px;
-    padding: 32px 12px;
-    margin: 0 auto;
-    min-height: 120px;
-    line-height: 1.7;
-    font-size: 1.06rem;
-    word-break: break-word;
-    box-shadow: 0 4px 12px rgba(11,98,106,0.06);
-    max-width: 700px;
-}
-.email-content-centered img {
-    max-width: 100%;
-    border-radius: 6px;
-    margin: 12px 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    display: block;
-}
-.email-content-centered a {
-    color: #0b626a;
-    text-decoration: underline;
-    word-break: break-all;
-}
-.email-content-centered pre, .email-content-plain {
-    background: #eef6f8;
-    border-radius: 6px;
-    padding: 10px;
-    font-size: 1rem;
-    color: #444;
-    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
-    overflow: auto;
-    max-width: 100%;
-}
-.email-content-empty {
-    color: #888;
-    background: #f6f6f6;
     text-align: center;
+    min-height: 200px;
+    color: var(--gray-500);
+}
+
+.email-content-centered i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    opacity: 0.5;
 }
