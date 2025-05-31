@@ -1781,3 +1781,160 @@ body {
         animation: none !important;
     }
 }
+
+/* ============================================ */
+/* TÍTULOS Y SUBTÍTULOS - TAMAÑO CONSISTENTE */
+/* ============================================ */
+
+/* Títulos principales - mantener mismo tamaño en todos los dispositivos */
+.services-header h2,
+.temp-header h2,
+.selection-header h2 {
+    font-size: 1.8rem !important; /* Forzar mismo tamaño */
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Subtítulos - mantener mismo tamaño en todos los dispositivos */
+.subtitle,
+.brand-tagline,
+.services-header p,
+.selection-header p {
+    font-size: 1.1rem !important; /* Forzar mismo tamaño */
+    opacity: 0.9;
+    font-weight: 400;
+}
+
+/* Logo principal */
+.logo {
+    font-size: 2.5rem !important; /* Mantener tamaño consistente */
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.logo i {
+    font-size: 2.2rem !important; /* Mantener tamaño consistente */
+}
+
+/* Brand logo en header */
+.brand-logo {
+    font-size: 1.8rem !important; /* Mantener tamaño consistente */
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ============================================ */
+/* OVERRIDE MEDIA QUERIES EXISTENTES */
+/* ============================================ */
+
+/* Anular cambios en móviles pequeños */
+@media (max-width: 480px) {
+    .logo {
+        font-size: 2.5rem !important; /* Mantener tamaño original */
+        flex-direction: row !important; /* Mantener horizontal */
+        gap: 15px !important;
+    }
+    
+    .services-header h2 {
+        font-size: 1.8rem !important; /* No reducir */
+    }
+    
+    .selection-header h2 {
+        font-size: 1.8rem !important; /* No reducir */
+    }
+    
+    .brand-logo {
+        font-size: 1.8rem !important; /* No reducir */
+        flex-direction: row !important; /* Mantener horizontal */
+        gap: 12px !important;
+    }
+    
+    .brand-tagline {
+        font-size: 1.1rem !important; /* No reducir */
+        display: block !important; /* Asegurar que se muestre */
+    }
+}
+
+/* Anular cambios en móviles medianos */
+@media (min-width: 481px) and (max-width: 768px) {
+    .services-header h2,
+    .temp-header h2,
+    .selection-header h2 {
+        font-size: 1.8rem !important; /* Mantener tamaño */
+    }
+    
+    .brand-logo {
+        font-size: 1.8rem !important; /* Mantener tamaño */
+    }
+    
+    .subtitle,
+    .brand-tagline {
+        font-size: 1.1rem !important; /* Mantener tamaño */
+    }
+}
+
+/* Anular cambios en tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .services-header h2,
+    .temp-header h2,
+    .selection-header h2 {
+        font-size: 1.8rem !important; /* Mantener tamaño */
+    }
+    
+    .brand-logo {
+        font-size: 1.8rem !important; /* Mantener tamaño */
+    }
+}
+
+/* Anular cambios en landscape móvil */
+@media (max-width: 767px) and (orientation: landscape) {
+    .brand-logo {
+        font-size: 1.8rem !important; /* Mantener tamaño */
+        flex-direction: row !important; /* Mantener horizontal */
+        gap: 12px !important;
+    }
+    
+    .brand-tagline {
+        font-size: 1.1rem !important; /* Mantener tamaño */
+        display: block !important; /* No ocultar */
+    }
+}
+
+/* Anular cambios en altura pequeña landscape */
+@media (max-height: 500px) and (orientation: landscape) {
+    .brand-logo {
+        font-size: 1.8rem !important; /* Mantener tamaño */
+        flex-direction: row !important; /* Mantener horizontal */
+        gap: 12px !important;
+    }
+    
+    .brand-tagline {
+        font-size: 1.1rem !important; /* Mantener tamaño */
+        display: block !important; /* No ocultar en landscape */
+    }
+}
+
+/* ============================================ */
+/* TEXTOS ESPECÍFICOS MENCIONADOS */
+/* ============================================ */
+
+/* Para los textos específicos que mencionaste */
+h2:contains("Selecciona un Servicio"),
+h2:contains("Genera tu Correo Temporal"),
+h2:contains("Selecciona tu Plataforma de Streaming") {
+    font-size: 1.8rem !important;
+}
+
+p:contains("Elige entre nuestros servicios"),
+p:contains("Plataforma gratuita de generación"),
+p:contains("Elige el servicio para ver todos") {
+    font-size: 1.1rem !important;
+}
