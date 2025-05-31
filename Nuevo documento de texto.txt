@@ -1,0 +1,355 @@
+/* ===================================================================== */
+/* CORRECCIONES ESPECÍFICAS PARA CODIGO-MANAGER.HTML */
+/* ===================================================================== */
+
+/* Estas reglas van AL FINAL del styles.css o en un archivo separado */
+
+/* Asegurar que los iconos de streaming mantengan su posición */
+.streaming-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    flex-shrink: 0; /* Importante: evita que se compriman */
+}
+
+/* Iconos específicos con colores correctos */
+.streaming-icon.netflix {
+    background: linear-gradient(135deg, #e50914, #b81d24);
+}
+
+.streaming-icon.disney {
+    background: linear-gradient(135deg, #113ccf, #0c2da8);
+}
+
+.streaming-icon.amazon {
+    background: linear-gradient(135deg, #ff9900, #e67e00);
+}
+
+/* Arreglar las cards de streaming */
+.streaming-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 25px;
+    box-shadow: var(--shadow-lg);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alineación correcta */
+}
+
+.streaming-content {
+    width: 100%;
+}
+
+.streaming-content h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--gray-800);
+    margin-bottom: 10px;
+}
+
+.streaming-content p {
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+/* Service instruction box */
+.service-instruction {
+    background: var(--gray-50);
+    padding: 12px;
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    border-left: 3px solid var(--primary-color);
+    margin-top: 10px;
+}
+
+/* Input header arreglado */
+.input-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.back-service-btn {
+    background: var(--gray-100);
+    color: var(--gray-600);
+    border: none;
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.back-service-btn:hover {
+    background: var(--gray-200);
+    color: var(--gray-800);
+}
+
+/* Selected service info */
+.selected-service-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.service-icon-small {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.2rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.service-icon-small.netflix {
+    background: linear-gradient(135deg, #e50914, #b81d24);
+}
+
+.service-icon-small.disney {
+    background: linear-gradient(135deg, #113ccf, #0c2da8);
+}
+
+.service-icon-small.amazon {
+    background: linear-gradient(135deg, #ff9900, #e67e00);
+}
+
+.selected-service-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--gray-800);
+}
+
+.selected-service-info p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--gray-600);
+}
+
+/* Platform header arreglado */
+.selected-platform-header {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: var(--gray-50);
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.platform-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.platform-name {
+    font-weight: 600;
+    color: var(--gray-800);
+    font-size: 0.95rem;
+}
+
+/* Botón cambiar correo - asegurar que mantenga estilo */
+.change-email-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    border-radius: 25px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
+}
+
+.change-email-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%) !important;
+}
+
+.change-email-btn i {
+    font-size: 12px !important;
+}
+
+/* ===================================================================== */
+/* CORRECCIONES RESPONSIVE ESPECÍFICAS PARA CODIGO-MANAGER */
+/* ===================================================================== */
+
+/* TABLETAS */
+@media (max-width: 1024px) {
+    .streaming-services {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+/* MÓVILES */
+@media (max-width: 768px) {
+    /* Input header responsive */
+    .input-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        text-align: left;
+    }
+    
+    .selected-service-info {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    /* Streaming cards responsive */
+    .streaming-card {
+        padding: 20px;
+        text-align: left; /* Mantener alineación izquierda */
+    }
+    
+    .streaming-icon {
+        margin: 0 0 15px 0; /* No centrar, mantener a la izquierda */
+        align-self: flex-start;
+    }
+    
+    .streaming-content {
+        text-align: left;
+    }
+    
+    /* Platform header responsive */
+    .selected-platform-header {
+        justify-content: flex-start;
+        text-align: left;
+    }
+    
+    /* Email actions responsive */
+    .email-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .change-email-btn {
+        width: auto !important; /* No ancho completo */
+        min-width: 140px !important;
+    }
+    
+    /* Service instruction responsive */
+    .service-instruction {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+}
+
+/* MÓVILES PEQUEÑOS */
+@media (max-width: 480px) {
+    .streaming-card {
+        padding: 15px;
+    }
+    
+    .streaming-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .streaming-content h3 {
+        font-size: 1.1rem;
+    }
+    
+    .service-icon-small {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .selected-service-info h3 {
+        font-size: 1rem;
+    }
+    
+    .selected-service-info p {
+        font-size: 0.8rem;
+    }
+    
+    .change-email-btn {
+        padding: 8px 16px !important;
+        font-size: 13px !important;
+    }
+}
+
+/* ===================================================================== */
+/* ASEGURAR QUE LOS ELEMENTOS NO SE MUEVAN */
+/* ===================================================================== */
+
+/* Prevenir desplazamientos no deseados */
+.streaming-services {
+    position: relative;
+}
+
+.input-card {
+    position: relative;
+}
+
+.email-card {
+    position: relative;
+}
+
+.inbox-card {
+    position: relative;
+}
+
+/* Mantener consistencia en iconos */
+.streaming-icon i,
+.service-icon-small i {
+    line-height: 1;
+    vertical-align: middle;
+}
+
+/* Asegurar que los botones mantengan posición */
+.back-service-btn {
+    position: relative;
+}
+
+.change-email-btn {
+    position: relative;
+}
+
+/* Prevenir overflow en mobile */
+@media (max-width: 768px) {
+    .streaming-content,
+    .selected-service-info {
+        overflow: hidden;
+    }
+    
+    .streaming-content h3,
+    .streaming-content p,
+    .service-instruction {
+        word-wrap: break-word;
+    }
+}

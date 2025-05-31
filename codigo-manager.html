@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HANS TempMail - Gestión de Códigos</title>
-    <link rel="stylesheet" href="/TestMail.app/styles.css">
+    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -47,19 +47,23 @@
         <header class="professional-header">
             <div class="header-brand">
                 <h1 class="brand-logo">
-    		  <a href="/TestMail.app/main.html" style="text-decoration: none; color: inherit;">
+    		  <a href="index.html" style="text-decoration: none; color: inherit;">
                     <i class="fa-solid fa-envelope-open"></i>
                     HANS TempMail
                 </h1>
                 <p class="brand-tagline">Tu privacidad, nuestra prioridad</p>
             </div>
             <nav class="services-nav">
-                <a href="/TestMail.app/index.html" class="nav-item">
+                <a href="index.html" class="nav-item">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="correo_temporal.html" class="nav-item">
                     <i class="fas fa-inbox"></i>
                     <span>Correo Temporal</span>
                 </a>
-                <a href="/TestMail.app/codigo-manager.html" class="nav-item active">
-                    <i class="fas fa-code"></i>
+                <a href="codigo-manager.html" class="nav-item active">
+                    <i class="fa-solid fa-envelope-circle-check"></i>
                     <span>Gestión de Códigos</span>
                 </a>
             </nav>
@@ -90,7 +94,7 @@
 
                     <div class="streaming-card" data-service="disney" onclick="selectService('disney')">
                         <div class="streaming-icon disney">
-                            <i class="fa-solid fa-d"></i>
+                            <i class="fa-solid fa-tv"></i>
                         </div>
                         <div class="streaming-content">
                             <h3>Disney+</h3>
@@ -103,7 +107,7 @@
 
                     <div class="streaming-card" data-service="amazon" onclick="selectService('amazon')">
                         <div class="streaming-icon amazon">
-                            <i class="fa-solid fa-a"></i>
+                            <i class="fab fa-amazon"></i>
                         </div>
                         <div class="streaming-content">
                             <h3>Amazon Prime</h3>
@@ -280,6 +284,6 @@
         <div id="toastContainer" class="toast-container"></div>
     </div>
 
-    <script src="/TestMail.app/codigo-manager.js"></script>
+    <script src="codigo-manager.js"></script>
 </body>
 </html>

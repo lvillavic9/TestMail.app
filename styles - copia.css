@@ -51,7 +51,7 @@ body {
     background: var(--white);
     border-radius: var(--radius-lg);
     padding: 20px 30px;
-    margin-bottom: 80px;
+    margin-bottom: 30px;
     box-shadow: var(--shadow-lg);
     display: flex;
     justify-content: space-between;
@@ -121,28 +121,6 @@ body {
 
 .nav-item i {
     font-size: 1rem;
-}
-
-/* Mostrar texto en móvil para navegación */
-@media (max-width: 768px) {
-    .nav-item {
-        padding: 10px 15px;
-        font-size: 0.85rem;
-        min-width: auto;
-    }
-    
-    .nav-item span {
-        display: inline !important;
-    }
-    
-    .nav-item i {
-        font-size: 0.9rem;
-    }
-    
-    .services-nav {
-        gap: 3px;
-        padding: 3px;
-    }
 }
 
 .header {
@@ -230,29 +208,6 @@ body {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(11, 98, 106, 0.12);
-}
-
-/* Mejoras para móvil - Botones Generar y Aleatorio */
-@media (max-width: 768px) {
-    .input-container {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .input-container input {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-    
-    .input-container .btn-primary,
-    .input-container .btn-secondary {
-        width: 100%;
-        justify-content: center;
-        padding: 14px 20px;
-        font-size: 1rem;
-        min-height: 48px;
-        white-space: nowrap;
-    }
 }
 
 .input-help {
@@ -605,7 +560,7 @@ body {
 }
 
 .modal-body {
-    padding: 5px;
+    padding: 25px;
     overflow-y: auto;
     flex: 1;
 }
@@ -622,7 +577,7 @@ body {
     background: var(--gray-50);
     padding: 12px 15px; /* Reducido de 20px */
     border-radius: var(--radius);
-    margin-bottom: 0px; /* Reducido de 25px */
+    margin-bottom: 15px; /* Reducido de 25px */
     font-size: 0.85rem; /* Reducido */
 }
 
@@ -666,7 +621,7 @@ body {
     line-height: 1.6;
     background: var(--white);
     border-radius: var(--radius);
-    padding: 8px;
+    padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     border: 1px solid var(--gray-100);
 }
@@ -778,7 +733,7 @@ body {
 
 /* Página Principal - Hub de Navegación */
 .services-grid {
-    margin-bottom: 5px;
+    margin-bottom: 40px;
 }
 
 .services-header {
@@ -910,12 +865,12 @@ body {
 
 /* Quick Info Section */
 .quick-info {
-    margin-top: 0px;
+    margin-top: 40px;
 }
 
 /* How it Works Section for Index */
 .how-it-works {
-    margin-top: 0px;
+    margin-top: 40px;
 }
 
 .info-card {
@@ -1186,7 +1141,7 @@ body {
 
 /* Messages Section */
 .messages-section {
-    margin-bottom: 0px;
+    margin-bottom: 40px;
 }
 
 .messages-card {
