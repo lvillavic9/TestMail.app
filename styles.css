@@ -1912,7 +1912,7 @@ body {
 @media (max-height: 500px) and (orientation: landscape) {
     .brand-logo {
         font-size: 1.8rem !important; /* Mantener tamaño */
-        flex-direction: row !important; /* Mantener horizontal */
+        flex-direction: center !important; /* Mantener horizontal */
         gap: 12px !important;
     }
     
