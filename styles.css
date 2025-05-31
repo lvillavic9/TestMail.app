@@ -181,6 +181,18 @@ body {
     gap: 0px;
 }
 
+.temp-header {
+    text-align: center;
+    margin-bottom: 0px;
+    color: var(--white);
+}
+
+.temp-header h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
 .generator-card,
 .email-card,
 .inbox-card {
@@ -788,14 +800,9 @@ body {
 }
 
 .services-header h2 {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 600;
     margin-bottom: 10px;
-}
-
-.services-header p {
-    font-size: 1.1rem;
-    opacity: 0.9;
 }
 
 .services-container {
